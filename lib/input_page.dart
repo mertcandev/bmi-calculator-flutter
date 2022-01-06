@@ -1,11 +1,9 @@
+import 'package:bmi_calculator/constants.dart';
 import 'package:bmi_calculator/icon_content.dart';
 import 'package:bmi_calculator/reuseable_card.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-const bottomContainerHeight = 80.0;
-const Color activeCardColour = Color(0xff1d1e33);
-const Color inactiveCardColour = Color(0xff111328);
-const Color bottomContainerColor = Color(0xffeb1555);
 enum Gender {
   male,
   female,
@@ -18,6 +16,7 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
   Gender selectedGender;
+  int height = 180;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +27,7 @@ class _InputPageState extends State<InputPage> {
         ),
         body: Center(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Row(
                 children: [
@@ -39,8 +39,8 @@ class _InputPageState extends State<InputPage> {
                       });
                     },
                     colour: selectedGender == Gender.male
-                        ? activeCardColour
-                        : inactiveCardColour,
+                        ? kActiveCardColour
+                        : kInactiveCardColour,
                     cardChild:
                         IconContent(cardIcon: Icons.male, cardText: "Male"),
                   )),
@@ -52,34 +52,75 @@ class _InputPageState extends State<InputPage> {
                       });
                     },
                     colour: selectedGender == Gender.female
-                        ? activeCardColour
-                        : inactiveCardColour,
+                        ? kActiveCardColour
+                        : kInactiveCardColour,
                     cardChild:
                         IconContent(cardIcon: Icons.female, cardText: "Female"),
                   )),
                 ],
               ),
               Expanded(
-                  child: Container(
-                height: MediaQuery.of(context).size.height / 5,
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  color: activeCardColour,
-                  borderRadius: BorderRadius.circular(15),
+                child: ReuseableCard(
+                  colour: kActiveCardColour,
+                  cardChild: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Height",
+                          style: GoogleFonts.lato(textStyle: kLabelTextStyle)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          Text(
+                            height.toString(),
+                            style:
+                                GoogleFonts.lato(textStyle: kNumberTextStyle),
+                          ),
+                          Text(
+                            "cm",
+                            style: GoogleFonts.lato(textStyle: kLabelTextStyle),
+                          )
+                        ],
+                      ),
+                      SliderTheme(
+                        data: SliderTheme.of(context).copyWith(
+                            thumbColor: Color(0xffeb1555),
+                            activeTrackColor: Colors.white,
+                            trackHeight: 1,
+                            thumbShape:
+                                RoundSliderThumbShape(enabledThumbRadius: 10),
+                            overlayShape:
+                                RoundSliderOverlayShape(overlayRadius: 18),
+                            overlayColor: Color(0x29eb1555)),
+                        child: Slider(
+                          value: height.toDouble(),
+                          min: 120,
+                          max: 220,
+                          //activeColor: Color(0xffeb1555),
+                          inactiveColor: Color(0xff8d8e98),
+                          onChanged: (double newValue) {
+                            setState(() {
+                              height = newValue.round();
+                            });
+                          },
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              )),
+              ),
               Row(
                 children: [
-                  Expanded(child: ReuseableCard(colour: activeCardColour)),
-                  Expanded(child: ReuseableCard(colour: activeCardColour)),
+                  Expanded(child: ReuseableCard(colour: kActiveCardColour)),
+                  Expanded(child: ReuseableCard(colour: kActiveCardColour)),
                 ],
               ),
               Container(
-                color: bottomContainerColor,
+                color: kBottomContainerColor,
                 margin: EdgeInsets.only(top: 10),
                 width: double.infinity,
-                height: bottomContainerHeight,
+                height: kBottomContainerHeight,
               )
             ],
           ),

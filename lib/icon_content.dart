@@ -1,7 +1,7 @@
+import 'package:bmi_calculator/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-const labelTextStyle = TextStyle(fontSize: 18, color: Colors.white);
 
 class IconContent extends StatelessWidget {
   final String cardText;
@@ -15,7 +15,7 @@ class IconContent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(cardIcon, color: Colors.white, size: 90),
-        Text(cardText, style: GoogleFonts.lato(textStyle: labelTextStyle)),
+        Text(cardText, style: GoogleFonts.lato(textStyle: kLabelTextStyle)),
         SizedBox(height: 15),
       ],
     );
